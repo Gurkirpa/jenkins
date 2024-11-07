@@ -3,8 +3,6 @@ pipeline {
         docker { image 'docker:latest' }
     }
     environment {
-        #DOCKER_IMAGE = 'Gurkirpa/your-image-name'
-        #DOCKER_TAG = 'latest'
         DOCKERHUB_CREDENTIALS = 'dockerhub-creds'  
     }
     stages {
