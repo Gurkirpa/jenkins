@@ -12,12 +12,12 @@ pipeline {
         git branch: 'main', https://github.com/Gurkirpa/jenkins.git'
          }
       }
-	stage('Test') {
+    stage('Test') {
       steps {
         sh 'cd Dockerhub'
       }
     }
-	stage('Build and Push Docker Image') {
+    stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "gurkirpa/ultimate-cicd:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "Dockerhub/Dockerfile"
@@ -26,10 +26,10 @@ pipeline {
       steps {
         script {
             sh '''
-                    echo 'Buid Docker Image'
-                    docker build -t abhishekf5/cicd-e2e:${BUILD_NUMBER} .
+	        echo 'Buid Docker Image'
+                docker build -t abhishekf5/cicd-e2e:${BUILD_NUMBER} .
                     '''
-        }
+	}
       }
     }
   }
