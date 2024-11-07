@@ -1,27 +1,33 @@
 pipeline {
-    
-    agent any 
-    
-    
-    stages {
-        
-        stage('Checkout'){
-           steps {
-                git credentialsId: 'github-cred', 
-                url: 'https://github.com/Gurkirpa/jenkins.git',
-                branch: 'main'
-           }
-        }
-
-        stage('Build Docker'){
-            steps{
-                script{
-                    sh '''
-                    echo 'Buid Docker Image'
-                    docker build -t gurkirpa/cicd-docker:${BUILD_NUMBER} .
-                    '''
-                }
-            }
-        }
+  agent {
+    docker {
+      image 'abhishekf5/maven-abhishek-docker-agent:v1'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' 
     }
-}	
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        sh 'echo passed'
+        git branch: 'main', https://github.com/Gurkirpa/jenkins.git'
+      }
+    }
+	stage('Test') {
+      steps {
+        sh 'cd Dockerhub'
+      }
+    }
+	stage('Build and Push Docker Image') {
+      environment {
+        DOCKER_IMAGE = "gurkirpa/ultimate-cicd:${BUILD_NUMBER}"
+        // DOCKERFILE_LOCATION = "Dockerhub/Dockerfile"
+        REGISTRY_CREDENTIALS = credentials('dockerhub-creds')
+      }
+      steps {
+        script {
+            sh 'cd Dockerhub && docker build -t ${DOCKER_IMAGE} .'
+        }
+      }
+    }
+  }
+}
