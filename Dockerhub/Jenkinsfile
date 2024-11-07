@@ -10,8 +10,8 @@ pipeline {
       steps {
         sh 'echo passed'
         git branch: 'main', https://github.com/Gurkirpa/jenkins.git'
+         }
       }
-    }
 	stage('Test') {
       steps {
         sh 'cd Dockerhub'
@@ -30,3 +30,4 @@ pipeline {
       }
     }
   }
+}	
