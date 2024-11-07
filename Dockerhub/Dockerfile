@@ -1,13 +1,21 @@
-FROM ubuntu:latest
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-#set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-#copy eveything from current folder to working directory
+# Copy the current directory contents into the container at /app
 COPY . /app
 
-#install system dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-#start processing with cmd
-CMD ["python3", "app.py"]
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+
