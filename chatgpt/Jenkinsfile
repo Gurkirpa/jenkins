@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'gurkirpa'  // Name of the Docker image to create
+        IMAGE_NAME = 'gurkirpa'  
+        DOCKERFILE_PATH = './Dockerfile'
     }
     stages {
         stage('Checkout'){
@@ -15,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker Image..."
-                    sh "docker build -t ${IMAGE_NAME} -f /chatgpt/Dockerfile ."
+                    sh "docker build -t ${IMAGE_NAME} -f ${DOCKERFILE_PATH} ."
                 }
             }
         }
