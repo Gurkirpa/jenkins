@@ -4,11 +4,18 @@ pipeline {
         IMAGE_NAME = 'gurkirpa'  // Name of the Docker image to create
     }
     stages {
+        stage('Checkout'){
+           steps {
+                git credentialsId: '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', 
+                url: 'https://github.com/Gurkirpa/jenkins.git',
+                branch: 'main'
+           }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
                     echo "Building Docker Image..."
-                    sh "docker build -t ${IMAGE_NAME} -f /https://github.com/Gurkirpa/jenkins.git/chatgpt/Dockerfile ."
+                    sh "docker build -t ${IMAGE_NAME} -f /chatgpt/Dockerfile ."
                 }
             }
         }
